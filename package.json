@@ -1,0 +1,27 @@
+{
+  "name": "tadreebak-landing",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Tadreebak premium landing page — Egypt's first platform connecting university students with internships",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@react-three/fiber": "8.17.10",
+    "gsap": "3.12.5",
+    "lenis": "1.1.14",
+    "next": "14.2.13",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.10",
+    "@types/react": "18.3.11",
+    "@types/react-dom": "18.3.0",
+    "@types/three": "0.169.0",
+    "typescript": "5.6.2"
+  }
+}
