@@ -432,6 +432,23 @@ ol {
   background: var(--brand-mint-50);
 }
 
+.header__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(11, 18, 32, 0.42);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.header.is-open .header__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .header__mobile {
   pointer-events: auto;
   position: absolute;
@@ -441,12 +458,30 @@ ol {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 24px;
   box-shadow: var(--shadow-lg);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+  transform-origin: top right;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    visibility 0s linear var(--dur-base);
+}
+
+.header.is-open .header__mobile {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    visibility 0s;
 }
 
 .header__mobile-link {
@@ -676,7 +711,8 @@ ol {
   padding: 0 14px 0 44px;
   border: none;
   background: transparent;
-  font-size: 15px;
+  /* 16px — iOS zooms the viewport on focus for anything smaller */
+  font-size: 16px;
   color: var(--ink-900);
 }
 
@@ -1666,6 +1702,42 @@ ol {
 
 .stories__track li {
   display: flex;
+}
+
+/* Touch devices: no hover to pause an auto-scrolling marquee —
+   turn it into a native swipeable carousel instead. */
+@media (hover: none) and (pointer: coarse) {
+  .stories__marquee {
+    width: 100%;
+    animation: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    padding-inline: 16px;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  }
+
+  .stories__marquee::-webkit-scrollbar {
+    display: none;
+  }
+
+  .stories__track {
+    flex: none;
+  }
+
+  .stories__track--clone {
+    display: none;
+  }
+
+  .stories__track li {
+    scroll-snap-align: center;
+  }
+
+  .fact-card {
+    width: 300px;
+  }
 }
 
 .fact-card {

@@ -32,12 +32,12 @@ export default function Hero() {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('');
 
-  // Mount the 3D scene only when: motion allowed + WebGL ok + browser idle.
-  // The chunk prefetch starts immediately (network, not CPU) so the canvas
-  // can mount the moment the browser goes idle — no fetch gap, no pop:
-  // the scene fades in on its first rendered frame instead.
+  // Mount the 3D scene only when: motion allowed + WebGL ok + desktop viewport
+  // + browser idle. Phones skip the chunk entirely — the copy fills their
+  // viewport, so there is no safe zone for 3D, and it saves their battery.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth < 768) return;
     if (!webglAvailable()) return;
     const w = window as unknown as {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;

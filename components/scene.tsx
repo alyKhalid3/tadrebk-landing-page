@@ -323,15 +323,13 @@ function Rig({ active }: { active: boolean }) {
   return null;
 }
 
-/** Scene layout that adapts to viewport width (mobile keeps the cap clear of copy). */
+/** Scene layout that adapts to viewport width (narrow screens: no cap at all). */
 function Centerpiece() {
   const { viewport } = useThree();
   const wide = viewport.width > 7;
+  if (!wide) return null;
   return (
-    <group
-      position={wide ? [3.4, -0.95, -2.2] : [2.4, 3.2, -3.2]}
-      scale={wide ? 0.92 : 0.55}
-    >
+    <group position={[3.4, -0.95, -2.2]} scale={0.92}>
       <GradCap />
     </group>
   );

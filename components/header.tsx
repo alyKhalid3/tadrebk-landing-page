@@ -24,6 +24,15 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   const go = (hash: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setOpen(false);
@@ -72,7 +81,9 @@ export default function Header() {
         </div>
       </div>
 
-      <div id="mobile-nav" className="header__mobile" hidden={!open}>
+      <div className="header__backdrop" onClick={() => setOpen(false)} aria-hidden="true" />
+
+      <div id="mobile-nav" className="header__mobile" aria-hidden={!open}>
         {NAV.map((item) => (
           <a key={item.href} href={item.href} className="header__mobile-link" onClick={go(item.href)}>
             {item.label}
